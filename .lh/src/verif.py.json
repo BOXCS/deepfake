@@ -1,0 +1,22 @@
+{
+    "sourceFile": "src/verif.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 1,
+            "patches": [
+                {
+                    "date": 1772969937282,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1772969986641,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -2,9 +2,9 @@\n # Buka dataset.csv yang ada di stylegan\r\n import pandas as pd\r\n from pathlib import Path\r\n \r\n-csv_path = Path('../data/raw/cross_eval/stylegan/Final Dataset/dataset.csv')\r\n+csv_path = Path(r'data\\raw\\cross_eval\\stylegan\\Final Dataset\\dataset.csv')\r\n df = pd.read_csv(csv_path)\r\n print(df.head(20))\r\n print(f\"\\nKolom: {df.columns.tolist()}\")\r\n print(f\"\\nTotal rows: {len(df)}\")\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1772969937282,
+            "name": "Commit-0",
+            "content": "# Cek asal-usul dataset 140k\r\n# Buka dataset.csv yang ada di stylegan\r\nimport pandas as pd\r\nfrom pathlib import Path\r\n\r\ncsv_path = Path('../data/raw/cross_eval/stylegan/Final Dataset/dataset.csv')\r\ndf = pd.read_csv(csv_path)\r\nprint(df.head(20))\r\nprint(f\"\\nKolom: {df.columns.tolist()}\")\r\nprint(f\"\\nTotal rows: {len(df)}\")"
+        }
+    ]
+}

@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/inspect.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1772969949442,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1772969949442,
+            "name": "Commit-0",
+            "content": "import cv2\r\nimport matplotlib.pyplot as plt\r\nfrom pathlib import Path\r\n\r\nstylegan_fake = list(Path('../data/raw/cross_eval/stylegan/Final Dataset/Fake').glob('*.jpg'))[:5]\r\nstylegan_real = list(Path('../data/raw/cross_eval/stylegan/Final Dataset/Real').glob('*.jpg'))[:5]\r\n\r\nfig, axes = plt.subplots(2, 5, figsize=(15, 6))\r\nfor i, img_path in enumerate(stylegan_real):\r\n    img = cv2.cvtColor(cv2.imread(str(img_path)), cv2.COLOR_BGR2RGB)\r\n    axes[0, i].imshow(img)\r\n    axes[0, i].set_title('Real', color='green')\r\n    axes[0, i].axis('off')\r\n\r\nfor i, img_path in enumerate(stylegan_fake):\r\n    img = cv2.cvtColor(cv2.imread(str(img_path)), cv2.COLOR_BGR2RGB)\r\n    axes[1, i].imshow(img)\r\n    axes[1, i].set_title('Fake', color='red')\r\n    axes[1, i].axis('off')\r\n\r\nplt.tight_layout()\r\nplt.savefig('../experiments/stylegan_samples.png', dpi=150)\r\nplt.show()"
+        }
+    ]
+}

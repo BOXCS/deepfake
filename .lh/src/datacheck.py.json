@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/datacheck.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1772971867591,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1772971867591,
+            "name": "Commit-0",
+            "content": "from pathlib import Path\r\n\r\n# DFDC\r\ndfdc_base = Path('data/raw/cross_eval/dfdc')\r\nfor split in ['train', 'validation']:\r\n    for label in ['real', 'fake']:\r\n        folder = dfdc_base / split / label\r\n        count = len(list(folder.glob('*.jpg')) + list(folder.glob('*.png')))\r\n        print(f\"DFDC/{split}/{label}: {count} images\")\r\n\r\nprint()\r\n\r\n# Faceswap\r\nfs_base = Path('data/raw/cross_eval/faceswap/Dataset')\r\nfor split in ['Train', 'Test', 'Validation']:\r\n    folder = fs_base / split\r\n    if folder.exists():\r\n        for subfolder in sorted(folder.iterdir()):\r\n            if subfolder.is_dir():\r\n                count = len(list(subfolder.glob('*.jpg')) + list(subfolder.glob('*.png')))\r\n                print(f\"Faceswap/{split}/{subfolder.name}: {count} images\")"
+        }
+    ]
+}

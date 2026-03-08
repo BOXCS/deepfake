@@ -1,0 +1,26 @@
+{
+    "sourceFile": "new_data.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1772969488378,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1772969663921,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,7 +1,9 @@\n from pathlib import Path\r\n \r\n for dataset in ['stylegan', 'hq2024']:\r\n-    base = Path(f'../data/raw/cross_eval/{dataset}')\r\n+    base = Path(f'data/raw/cross_eval/{dataset}')\r\n     print(f\"\\n=== {dataset} ===\")\r\n+    print(\"Exists:\", base.exists())\r\n+\r\n     for p in sorted(base.rglob('*'))[:20]:\r\n         print(p)\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1772969726516,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,9 +1,17 @@\n from pathlib import Path\r\n \r\n-for dataset in ['stylegan', 'hq2024']:\r\n-    base = Path(f'data/raw/cross_eval/{dataset}')\r\n-    print(f\"\\n=== {dataset} ===\")\r\n-    print(\"Exists:\", base.exists())\r\n+# StyleGAN\r\n+stylegan_base = Path('data/raw/cross_eval/stylegan/Final Dataset')\r\n+print(\"=== StyleGAN ===\")\r\n\\ No newline at end of file\n+for folder in sorted(stylegan_base.iterdir()):\r\n+    if folder.is_dir():\r\n+        count = len(list(folder.glob('*.jpg'))) + len(list(folder.glob('*.png')))\r\n+        print(f\"{folder.name}: {count} images\")\r\n \r\n-    for p in sorted(base.rglob('*'))[:20]:\r\n-        print(p)\n+# HQ2024\r\n+hq_base = Path('data/raw/cross_eval/hq2024/AI-face-detection-Dataset')\r\n+print(\"\\n=== HQ2024 ===\")\r\n+for folder in sorted(hq_base.iterdir()):\r\n+    if folder.is_dir():\r\n+        count = len(list(folder.glob('*.jpg'))) + len(list(folder.glob('*.png')))\r\n+        print(f\"{folder.name}: {count} images\")\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1772969488378,
+            "name": "Commit-0",
+            "content": "from pathlib import Path\r\n\r\nfor dataset in ['stylegan', 'hq2024']:\r\n    base = Path(f'../data/raw/cross_eval/{dataset}')\r\n    print(f\"\\n=== {dataset} ===\")\r\n    for p in sorted(base.rglob('*'))[:20]:\r\n        print(p)"
+        }
+    ]
+}
