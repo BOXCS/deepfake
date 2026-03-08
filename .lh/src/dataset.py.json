@@ -1,0 +1,18 @@
+{
+    "sourceFile": "src/dataset.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 0,
+            "patches": [
+                {
+                    "date": 1772954255656,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                }
+            ],
+            "date": 1772954255656,
+            "name": "Commit-0",
+            "content": "import os\r\nimport cv2\r\nimport numpy as np\r\nimport torch\r\nfrom torch.utils.data import Dataset\r\nfrom pathlib import Path\r\nfrom torchvision import transforms\r\n\r\nclass DeepfakeDataset(Dataset):\r\n    def __init__(self, data_dir, split='train', transform=None):\r\n        self.data_dir = Path(data_dir) / split\r\n        self.transform = transform\r\n        \r\n        self.image_paths = []\r\n        self.labels = []\r\n        \r\n        # Load real images (label = 0)\r\n        real_dir = self.data_dir / 'real'\r\n        for img_path in real_dir.glob('*.jpg'):\r\n            self.image_paths.append(img_path)\r\n            self.labels.append(0)\r\n        \r\n        # Load fake images (label = 1)\r\n        fake_dir = self.data_dir / 'fake'\r\n        for img_path in fake_dir.glob('*.jpg'):\r\n            self.image_paths.append(img_path)\r\n            self.labels.append(1)\r\n            \r\n        print(f\"[{split}] Real: {self.labels.count(0)} | Fake: {self.labels.count(1)}\")\r\n\r\n    def __len__(self):\r\n        return len(self.image_paths)\r\n\r\n    def __getitem__(self, idx):\r\n        img = cv2.imread(str(self.image_paths[idx]))\r\n        img = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)\r\n        \r\n        if self.transform:\r\n            img = self.transform(img)\r\n            \r\n        label = torch.tensor(self.labels[idx], dtype=torch.long)\r\n        return img, label\r\n\r\n\r\ndef get_transforms(split='train'):\r\n    if split == 'train':\r\n        return transforms.Compose([\r\n            transforms.ToPILImage(),\r\n            transforms.Resize((224, 224)),\r\n            transforms.RandomHorizontalFlip(p=0.5),\r\n            transforms.RandomRotation(degrees=10),\r\n            transforms.ColorJitter(brightness=0.2, contrast=0.2),\r\n            transforms.ToTensor(),\r\n            transforms.Normalize(mean=[0.485, 0.456, 0.406],\r\n                                 std=[0.229, 0.224, 0.225])\r\n        ])\r\n    else:\r\n        return transforms.Compose([\r\n            transforms.ToPILImage(),\r\n            transforms.Resize((224, 224)),\r\n            transforms.ToTensor(),\r\n            transforms.Normalize(mean=[0.485, 0.456, 0.406],\r\n                                 std=[0.229, 0.224, 0.225])\r\n        ])"
+        }
+    ]
+}

@@ -1,0 +1,26 @@
+{
+    "sourceFile": "src/model.py",
+    "activeCommit": 0,
+    "commits": [
+        {
+            "activePatchIndex": 2,
+            "patches": [
+                {
+                    "date": 1772950281908,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n"
+                },
+                {
+                    "date": 1772950652251,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,6 +1,2 @@\n import torch\r\n-import cv2\r\n-import timm\r\n-import mtcnn\r\n-\r\n-print(\"Torch:\", torch.__version__)\n\\ No newline at end of file\n+print(torch.cuda.is_available())\n\\ No newline at end of file\n"
+                },
+                {
+                    "date": 1772954262839,
+                    "content": "Index: \n===================================================================\n--- \n+++ \n@@ -1,2 +1,41 @@\n import torch\r\n-print(torch.cuda.is_available())\n\\ No newline at end of file\n+import torch.nn as nn\r\n+import timm\r\n+\r\n+class EfficientNetBaseline(nn.Module):\r\n+    def __init__(self, num_classes=2, pretrained=True):\r\n+        super(EfficientNetBaseline, self).__init__()\r\n+        \r\n+        self.backbone = timm.create_model(\r\n+            'efficientnet_b0',\r\n+            pretrained=pretrained,\r\n+            num_classes=0,  # Remove head\r\n+            global_pool='avg'\r\n+        )\r\n+        \r\n+        in_features = self.backbone.num_features  # 1280 untuk B0\r\n+        \r\n+        self.classifier = nn.Sequential(\r\n+            nn.Dropout(p=0.3),\r\n+            nn.Linear(in_features, 256),\r\n+            nn.ReLU(),\r\n+            nn.Dropout(p=0.2),\r\n+            nn.Linear(256, num_classes)\r\n+        )\r\n+    \r\n+    def forward(self, x):\r\n+        features = self.backbone(x)\r\n+        out = self.classifier(features)\r\n+        return out\r\n+\r\n+\r\n+def get_model(device):\r\n+    model = EfficientNetBaseline(num_classes=2, pretrained=True)\r\n+    model = model.to(device)\r\n+    \r\n+    total_params = sum(p.numel() for p in model.parameters())\r\n+    trainable_params = sum(p.numel() for p in model.parameters() if p.requires_grad)\r\n+    print(f\"Total params: {total_params:,}\")\r\n+    print(f\"Trainable params: {trainable_params:,}\")\r\n+    \r\n+    return model\n\\ No newline at end of file\n"
+                }
+            ],
+            "date": 1772950281907,
+            "name": "Commit-0",
+            "content": "import torch\r\nimport cv2\r\nimport timm\r\nimport mtcnn\r\n\r\nprint(\"Torch:\", torch.__version__)"
+        }
+    ]
+}
